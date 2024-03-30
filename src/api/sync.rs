@@ -118,9 +118,13 @@ impl ApiBuilder {
         let token = cache.token();
 
         let progress = true;
+        let endpoint = match std::env::var("HF_ENDPOINT") {
+            Ok(v) => v,
+            Err(_) => "https://huggingface.co".to_string(),
+        };
 
         Self {
-            endpoint: "https://huggingface.co".to_string(),
+            endpoint: endpoint,
             url_template: "{endpoint}/{repo_id}/resolve/{revision}/{filename}".to_string(),
             cache,
             token,
